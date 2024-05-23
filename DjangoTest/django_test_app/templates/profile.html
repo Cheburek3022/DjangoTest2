@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>Username: {{ user.username }}</p>
+    <p>Bio: {{ user.bio }}</p>
+    <p>Email: {{user.email }}</p>
+    <h1>Edit Profile</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Save</button>
+        </form>
+</body>
+</html>

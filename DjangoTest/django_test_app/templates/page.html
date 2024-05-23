@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/static/js/ajax.js"></script>
+</head>
+<body>
+      {% csrf_token %}
+      <input type="text" id="username" placeholder="Type name.."><br>
+      <input type="password" id="password" placeholder="Type password...">
+      <input type="submit" id="btn" value="Enter">
+</body>
+</html>
