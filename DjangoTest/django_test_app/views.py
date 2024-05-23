@@ -48,11 +48,14 @@ class PostPage(DetailView):
         context['comment'] = Comment.objects.filter(post=Post.objects.get(id=self.kwargs['pk']))
         return context
 
-    def post(self, request, *args, **kwargs):
-        data = self.request.POST
-        comment = Comment(text=data['text'], post=self.object, user=self.request.user)
-        comment.save()
-        response = render_to_string("partical/comment.html", {'comment': comment})
+
+class CommentCreate(CreateView):
+
+    def form_valid(self, form):
+        form.instance.post = Post.objects.get(id=self.kwargs['pk'])
+        form.instance.user = self.request.user
+        form.instance.save()
+        response = render_to_string("partical/comment.html", {'comment': form.instance})
         return JsonResponse(response, safe=False)
 
 
@@ -65,6 +68,12 @@ class PostCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class PostUpdate(UpdateView):
+    model = Post
+
+    def get_response(self):
+        response = render_to_string("", {'comment': self.object})
+        return JsonResponse(response, safe=False)
 
 @login_required
 def logout_view(request):
