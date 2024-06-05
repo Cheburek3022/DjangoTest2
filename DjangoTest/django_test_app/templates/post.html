@@ -5,6 +5,8 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/static/js/ajaxpost.js"></script>
+    <script src="/static/js/ajaxpostupdate.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
 </head>
 <body>
     {% csrf_token %}
@@ -15,5 +17,17 @@
     </div>
       <input type="text" id="text" placeholder="Comment">
       <input type="submit" id="btn" value="Enter" data-url="/post/{{ post.id }}/comment_create">
+    <div>
+      <input type="text" id="updt" placeholder="New text">
+      <input type="submit" id="upd" value="Enter" data-url="/post/{{ post.id }}/post_update">
+    </div>
+<h1>Update Post</h1>
+    <div id="post-form-container">
+        <form hx-post="{% url 'post_update' pk=post.pk %}" hx-target="#post-form-container" hx-swap="outerHTML">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </div>
 </body>
 </html>

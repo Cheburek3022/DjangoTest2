@@ -68,11 +68,14 @@ class PostCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class PostUpdate(UpdateView):
+    form_class = PostForm
     model = Post
+    template_name = 'post.html'
 
     def get_response(self):
-        response = render_to_string("", {'comment': self.object})
+        response = render_to_string("partical/postupdate.html", {'postupdate': self.object})
         return JsonResponse(response, safe=False)
 
 @login_required
