@@ -18,18 +18,16 @@
     {% endfor %}
     </div>
       <input type="text" id="text" placeholder="Comment">
-      <input type="submit" id="btn" value="Enter" data-url="/post/{{ post.id }}/comment_create">
-    <div>
-      <input type="text" id="updt" placeholder="New text">
-      <input type="submit" id="upd" value="Enter" data-url="/post/{{ post.id }}/post_update">
-    </div>
-<h1>Update Post</h1>
-    <div id="post-form-container">
-        <form hx-post="{% url 'post_update' pk=post.pk %}" hx-target="#post-form-container" hx-swap="outerHTML">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Save</button>
-        </form>
-    </div>
+      <input type="submit" id="btn" value="Send"
+          hx-triger="click" hx-post="{% url 'comment_create' post.id %}" hx-include="#text , [name='csrfmiddlewaretoken']" hx-target="#comments"
+      >
+
+    <dialog id="dialog">Hello</dialog>
+    <script> htmx.on('afterSwap', function(){
+        dialog.show()
+        afterTimeout(function(){
+        dialog.hide()}, 30)
+        })
+    </script>
 </body>
 </html>

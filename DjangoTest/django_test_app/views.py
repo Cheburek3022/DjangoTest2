@@ -9,7 +9,7 @@ from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.http import  JsonResponse
+from django.http import  JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from django.views.generic.detail import DetailView
 
@@ -50,13 +50,14 @@ class PostPage(DetailView):
 
 
 class CommentCreate(CreateView):
+    model = Comment
 
     def form_valid(self, form):
         form.instance.post = Post.objects.get(id=self.kwargs['pk'])
         form.instance.user = self.request.user
         form.instance.save()
         response = render_to_string("partical/comment.html", {'comment': form.instance})
-        return JsonResponse(response, safe=False)
+        return HttpResponse(response)
 
 
 class PostCreate(CreateView):
@@ -76,7 +77,7 @@ class PostUpdate(UpdateView):
 
     def get_response(self):
         response = render_to_string("partical/postupdate.html", {'postupdate': self.object})
-        return JsonResponse(response, safe=False)
+        return HttpResponse(response)
 
 @login_required
 def logout_view(request):
