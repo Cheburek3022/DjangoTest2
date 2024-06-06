@@ -10,6 +10,8 @@
 </head>
 <body>
     {% csrf_token %}
+    <p>{{ post.text }}</p>
+    <p>Created at: {{ post.created_at }}</p>
     <div id="comments">
     {% for comment in comments %}
        <p>{{ comment.user.username }}: {{comment.text }}</p>
